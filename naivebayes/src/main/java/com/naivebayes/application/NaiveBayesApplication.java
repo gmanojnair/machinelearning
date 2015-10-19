@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -19,7 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages={"com.naivebayes"})
 @EnableCaching
 @EnableScheduling
-public class NaiveBayesApplication {
+public class NaiveBayesApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		
@@ -33,9 +35,16 @@ public class NaiveBayesApplication {
 		for (String beanName : beanNames) {
 			System.out.println(beanName);
 		}
+		
+		
 	}
 	
-	
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(applicationClass);
+    }
+
+    private static Class<NaiveBayesApplication> applicationClass = NaiveBayesApplication.class;
 
 	@Bean
 	public CacheManager cacheManager() {
